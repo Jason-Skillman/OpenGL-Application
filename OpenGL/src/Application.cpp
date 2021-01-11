@@ -101,10 +101,10 @@ int main(void) {
         /* Loop until the user closes the window */
         while(!glfwWindowShouldClose(window)) {
             /* Render here */
-            GLCall(glClear(GL_COLOR_BUFFER_BIT));
+            renderer.Clear();
 
-            //shader.Bind();
-            //shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
+            shader.Bind();
+            shader.SetUniform4f("u_Color", 0.4f, 0.3f, 0.8f, 1.0f);
             
             //va.Bind();
             //vb.Bind();

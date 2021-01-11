@@ -8,6 +8,7 @@
 
 #include "Renderer.h"
 #include "VertexBuffer.h"
+#include "VertexBufferLayout.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
@@ -48,7 +49,7 @@ int main(void) {
 
 
     {
-        //----- Vertex -----
+        //----- Position and indices -----
         float positions[] = {
             -0.5f, -0.5f,
             0.5f, -0.5f,
@@ -62,6 +63,7 @@ int main(void) {
 
 
 
+        //----- VertexArray/Buffer -----
         VertexArray va;
     	
         VertexBuffer vb(positions, 4 * 2 * sizeof(float));
@@ -90,6 +92,11 @@ int main(void) {
 
 
 
+        //----- Renderer -----
+        Renderer renderer;
+
+
+
         float r = 0.0f;
         float increment = 0.05f;
 
@@ -107,17 +114,20 @@ int main(void) {
 
 
 
-            shader.Bind();
-            shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
+            //shader.Bind();
+            //shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
+            //
+            //va.Bind();
+            //vb.Bind();
+            //ib.Bind();
 
-            va.Bind();
-            vb.Bind();
-            ib.Bind();
-            shader.Bind();
+            //std::cout << "B: " << ib.GetCount() << std::endl;
 
 
             //count: number of indices to draw
-            GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+            //GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+
+            renderer.Draw(va, ib, shader);
 
 
         	//Animation

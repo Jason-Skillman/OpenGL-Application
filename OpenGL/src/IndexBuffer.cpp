@@ -2,7 +2,7 @@
 
 #include "Renderer.h"
 
-IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count) {
+IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count) : count(count) {
 	ASSERT(sizeof(unsigned int) == sizeof(GLuint));
 
 	GLCall(glGenBuffers(1, &rendererId));

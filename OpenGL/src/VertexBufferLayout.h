@@ -35,7 +35,7 @@ public:
 
 	template<>
 	void Push<float>(unsigned int count) {
-		elements.push_back({GL_FLOAT, count, GL_FALSE });
+		elements.push_back({ GL_FLOAT, count, GL_FALSE });
 		stride += count * VertexBufferElement::GetSizeOfType(GL_FLOAT);
 	}
 

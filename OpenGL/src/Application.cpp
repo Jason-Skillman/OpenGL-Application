@@ -37,10 +37,8 @@ int main(void) {
 	//V-sync
     glfwSwapInterval(1);
 
-	
-
     //Init GLEW
-	//Must be init after a valid context has been created
+	//Must be init after a valid context has been created (window)
     GLenum err = glewInit();
     if(GLEW_OK != err) {
         std::cout << "Error: glewInit() failed to initialize" << std::endl;
@@ -105,28 +103,14 @@ int main(void) {
             /* Render here */
             GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-            //Legacy OpenGL
-            /*glBegin(GL_TRIANGLES);
-            glVertex2f(-0.5f, -0.5f);
-            glVertex2f(0.0f, 0.5f);
-            glVertex2f(0.5f, -0.5f);
-            glEnd();*/
-
-
-
             //shader.Bind();
             //shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
-            //
+            
             //va.Bind();
             //vb.Bind();
             //ib.Bind();
 
-            //std::cout << "B: " << ib.GetCount() << std::endl;
-
-
-            //count: number of indices to draw
-            //GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-
+            
             renderer.Draw(va, ib, shader);
 
 
@@ -147,17 +131,3 @@ int main(void) {
     glfwTerminate();
     return 0;
 }
-
-
-/*
-
-//Enables the attribute using the index
-//GLCall(glEnableVertexAttribArray(0));
-
-//Creates an attribute
-//Amount of floats in one vertex (ex. -0.5f, -0.5f,) answer = 2
-//Stride: Size of bytes in the entire vertex (ex. -0.5f, -0.5f,) two floats times the sizeof(float)
-//GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0));
-
-
- */

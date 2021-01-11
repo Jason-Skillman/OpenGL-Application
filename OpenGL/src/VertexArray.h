@@ -6,6 +6,7 @@ class VertexBufferLayout;
 class VertexArray {
 private:
 	unsigned int rendererId;
+	
 public:
 	VertexArray();
 	~VertexArray();
@@ -14,5 +15,6 @@ public:
 
 	void Bind() const;
 	void Unbind() const;
+	
 };
 

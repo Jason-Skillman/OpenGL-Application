@@ -12,6 +12,7 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "Texture.h"
 
 int main(void) {
     GLFWwindow* window;
@@ -49,11 +50,17 @@ int main(void) {
     {
         //----- Position and indices -----
         float positions[] = {
-            -0.5f, -0.5f,
-            0.5f, -0.5f,
-            0.5f, 0.5f,
-            -0.5f, 0.5f
+            -0.5f, -0.5f, 0.0f, 0.0f,   //Bottom left
+            0.5f, -0.5f, 1.0f, 0.0f,    //Bottom right
+            0.5f, 0.5f, 1.0f, 1.0f,     //Top right
+            -0.5f, 0.5f, 0.0f, 1.0f     //Top left
         };
+        //float positions[] = {
+        //    -0.5f, -0.5f,
+        //    0.5f, -0.5f,
+        //    0.5f, 0.5f,
+        //    -0.5f, 0.5f
+        //};
         unsigned int indices[]{
             0, 1, 2,
             2, 3, 0
@@ -63,11 +70,14 @@ int main(void) {
 
         //----- VertexArray/Buffer -----
         VertexArray va;
-    	
-        VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+
+        int segments = 4, segSize = 4;
+        VertexBuffer vb(positions, 4 * 4 * sizeof(float));
     	
         VertexBufferLayout layout;
         layout.Push<float>(2);
+        layout.Push<float>(2);
+        //std::cout << "Size: " << layout.GetElementSize() << std::endl;
 
     	//Add the buffer and layout to the vertex array
         va.AddBuffer(vb, layout);
@@ -80,6 +90,13 @@ int main(void) {
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
         shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
+
+    	//Create a texture
+        Texture texture("res/textures/logo_google.png");
+        texture.Bind();
+
+    	//Value: the texture slot to use
+        shader.SetUniform1i("u_Texture", 0);
 
 
         //Clear
@@ -103,8 +120,8 @@ int main(void) {
             /* Render here */
             renderer.Clear();
 
-            shader.Bind();
-            shader.SetUniform4f("u_Color", 0.4f, 0.3f, 0.8f, 1.0f);
+            //shader.Bind();
+            //shader.SetUniform4f("u_Color", 0.4f, 0.3f, 0.8f, 1.0f);
             
             //va.Bind();
             //vb.Bind();

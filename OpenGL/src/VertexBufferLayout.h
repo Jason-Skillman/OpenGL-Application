@@ -25,6 +25,7 @@ class VertexBufferLayout {
 private:
 	std::vector<VertexBufferElement> elements;
 	unsigned int stride;
+	
 public:
 	VertexBufferLayout() : stride(0) { }
 
@@ -58,4 +59,9 @@ public:
 	inline unsigned int GetStride() const {
 		return stride;
 	}
+
+	int GetElementSize() const {
+		return elements.size();
+	}
+	
 };

@@ -29,7 +29,7 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
 		//Creates an attribute
 		//Amount of floats in one vertex (ex. -0.5f, -0.5f,) answer = 2
 		//Stride: Size of bytes in the entire vertex (ex. -0.5f, -0.5f,) two floats times the sizeof(float)
-		GLCall(glVertexAttribPointer(0, element.count, element.type, element.normalized, layout.GetStride(), reinterpret_cast<const void*>(offset)));
+		GLCall(glVertexAttribPointer(i, element.count, element.type, element.normalized, layout.GetStride(), reinterpret_cast<const void*>(offset)));
 
 		offset += element.count * VertexBufferElement::GetSizeOfType(element.type);
 	}

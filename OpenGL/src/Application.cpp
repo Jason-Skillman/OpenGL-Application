@@ -52,10 +52,10 @@ int main(void) {
     {
         //----- Position and indices -----
         float positions[] = {
-            -0.5f, -0.5f, 0.0f, 0.0f,   //Bottom left
-            0.5f, -0.5f, 1.0f, 0.0f,    //Bottom right
-            0.5f, 0.5f, 1.0f, 1.0f,     //Top right
-            -0.5f, 0.5f, 0.0f, 1.0f     //Top left
+            100.0f, 100.0f, 0.0f, 0.0f,   //Bottom left
+            200.0f, 100.0f, 1.0f, 0.0f,    //Bottom right
+            200.0f, 200.0f, 1.0f, 1.0f,     //Top right
+            100.0f, 200.0f, 0.0f, 1.0f     //Top left
         };
         //float positions[] = {
         //    -0.5f, -0.5f,
@@ -92,16 +92,25 @@ int main(void) {
 
 
 
-        //4/3 aspect ratio
-        glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+    	//Create a projection matrix
+        glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
 
 
+        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));
 
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(300, 300, 0));
+
+    	
+        //Create a model view projection matrix(MVP)
+        glm::mat4 mvp = projection * view * model;
+
+
+    	
         //----- Shader -----
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
         shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
-        shader.SetUniformMat4f("u_MVP", proj);
+        shader.SetUniformMat4f("u_MVP", mvp);
 
     	//Create a texture
         Texture texture("res/textures/logo_google.png");

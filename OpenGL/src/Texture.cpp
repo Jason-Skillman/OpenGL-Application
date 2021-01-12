@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-#include "vendor/stb_image/stb_image.h"
+#include "stb_image/stb_image.h"
 #include "Renderer.h"
 
 Texture::Texture(const std::string& filepath) : rendererId(0), filepath(filepath), localBuffer(nullptr), width(0), height(0), BPP(0) {

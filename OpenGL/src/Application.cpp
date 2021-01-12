@@ -26,7 +26,7 @@ int main(void) {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "OpenGL", NULL, NULL);
+    window = glfwCreateWindow(800, 800, "OpenGL", NULL, NULL);
     if(!window) {
         glfwTerminate();
         return -1;
@@ -67,6 +67,10 @@ int main(void) {
         };
 
 
+    	//Enable texture blending
+        GLCall(glEnable(GL_BLEND));
+        GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    	
 
         //----- VertexArray/Buffer -----
         VertexArray va;

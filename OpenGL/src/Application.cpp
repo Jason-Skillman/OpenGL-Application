@@ -15,6 +15,9 @@
 #include "Texture.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 int main(void) {
     GLFWwindow* window;
@@ -94,15 +97,9 @@ int main(void) {
 
     	//Create a projection matrix
         glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
-
-
+    	
         glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));
 
-        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(300, 300, 0));
-
-    	
-        //Create a model view projection matrix(MVP)
-        glm::mat4 mvp = projection * view * model;
 
 
     	
@@ -110,7 +107,7 @@ int main(void) {
         Shader shader("res/shaders/Basic.shader");
         shader.Bind();
         shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
-        shader.SetUniformMat4f("u_MVP", mvp);
+        
 
     	//Create a texture
         Texture texture("res/textures/logo_google.png");
@@ -133,6 +130,18 @@ int main(void) {
 
 
 
+    	//----- Setup ImGUI -----
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO(); (void)io;
+        ImGui::StyleColorsDark();
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
+
+
+        
+        glm::vec3 translation(300, 300, 0);
+
         float r = 0.0f;
         float increment = 0.05f;
 
@@ -141,14 +150,22 @@ int main(void) {
             /* Render here */
             renderer.Clear();
 
-            //shader.Bind();
-            //shader.SetUniform4f("u_Color", 0.4f, 0.3f, 0.8f, 1.0f);
-            
-            //va.Bind();
-            //vb.Bind();
-            //ib.Bind();
+            //New Frame
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
 
-            
+
+            glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
+            //Create a model view projection matrix(MVP)
+            glm::mat4 mvp = projection * view * model;
+
+        	
+            shader.Bind();
+            //shader.SetUniform4f("u_Color", 0.4f, 0.3f, 0.8f, 1.0f);
+            shader.SetUniformMat4f("u_MVP", mvp);
+
+        	
             renderer.Draw(va, ib, shader);
 
 
@@ -157,6 +174,19 @@ int main(void) {
             if(r < 1.0f) increment = 0.5f;
             r += increment;*/
 
+            {
+                static float f = 0.0f;
+                static int counter = 0;
+
+                ImGui::Begin("ImGUI");
+                ImGui::SliderFloat3("Translation", &translation.x, 0.0f, 800.0f);
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+                ImGui::End();
+            }
+
+            //Render
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
@@ -165,6 +195,11 @@ int main(void) {
             glfwPollEvents();
         }
     }
+
+    //Shutdown
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     glfwTerminate();
     return 0;

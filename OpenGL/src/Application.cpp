@@ -18,6 +18,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+#include "tests/TestClearColor.h"
 
 int main(void) {
     GLFWwindow* window;
@@ -54,83 +55,27 @@ int main(void) {
 
     {
         //----- Position and indices -----
-        float positions[] = {
-            -50.0f, -50.0f, 0.0f, 0.0f,   //Bottom left
-            50.0f, -50.0f, 1.0f, 0.0f,    //Bottom right
-            50.0f, 50.0f, 1.0f, 1.0f,     //Top right
-            -50.0f, 50.0f, 0.0f, 1.0f     //Top left
-        };
         //float positions[] = {
-        //    -0.5f, -0.5f,
-        //    0.5f, -0.5f,
-        //    0.5f, 0.5f,
-        //    -0.5f, 0.5f
+        //    -50.0f, -50.0f, 0.0f, 0.0f,   //Bottom left
+        //    50.0f, -50.0f, 1.0f, 0.0f,    //Bottom right
+        //    50.0f, 50.0f, 1.0f, 1.0f,     //Top right
+        //    -50.0f, 50.0f, 0.0f, 1.0f     //Top left
         //};
-        unsigned int indices[]{
-            0, 1, 2,
-            2, 3, 0
-        };
+        //unsigned int indices[]{
+        //    0, 1, 2,
+        //    2, 3, 0
+        //};
 
 
     	//Enable texture blending
         GLCall(glEnable(GL_BLEND));
         GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-    	
-
-        //----- VertexArray/Buffer -----
-        VertexArray va;
-
-        int segments = 4, segSize = 4;
-        VertexBuffer vb(positions, 4 * 4 * sizeof(float));
-    	
-        VertexBufferLayout layout;
-        layout.Push<float>(2);
-        layout.Push<float>(2);
-        //std::cout << "Size: " << layout.GetElementSize() << std::endl;
-
-    	//Add the buffer and layout to the vertex array
-        va.AddBuffer(vb, layout);
-
-        IndexBuffer ib(indices, 6);
-
-
-
-    	//Create a projection matrix
-        glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
-    	
-        glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
-
-
 
     	
-        //----- Shader -----
-        Shader shader("res/shaders/Basic.shader");
-        shader.Bind();
-        shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
-        
-
-    	//Create a texture
-        Texture texture("res/textures/logo_google.png");
-        texture.Bind();
-
-    	//Value: the texture slot to use
-        shader.SetUniform1i("u_Texture", 0);
-
-
-        //Clear
-        va.Unbind();
-        shader.Unbind();
-        GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
-        GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
-
-
-
-        //----- Renderer -----
         Renderer renderer;
 
 
-
-    	//----- Setup ImGUI -----
+        //----- Setup ImGUI -----
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -139,43 +84,104 @@ int main(void) {
         ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
 
 
-        
-        glm::vec3 translationA(300, 300, 0);
-        glm::vec3 translationB(200, 200, 0);
+        test::TestClearColor test;
+    	
 
-        float r = 0.0f;
-        float increment = 0.05f;
+        //----- VertexArray/Buffer -----
+        //VertexArray va;
+        //
+        //int segments = 4, segSize = 4;
+        //VertexBuffer vb(positions, 4 * 4 * sizeof(float));
+    	//
+        //VertexBufferLayout layout;
+        //layout.Push<float>(2);
+        //layout.Push<float>(2);
+        ////std::cout << "Size: " << layout.GetElementSize() << std::endl;
+        //
+    	////Add the buffer and layout to the vertex array
+        //va.AddBuffer(vb, layout);
+        //
+        //IndexBuffer ib(indices, 6);
+
+
+
+    	//Create a projection matrix
+        //glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f);
+    	
+        //glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
+
+
+
+    	
+        //----- Shader -----
+        //Shader shader("res/shaders/Basic.shader");
+        //shader.Bind();
+        //shader.SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
+        //
+        //
+    	////Create a texture
+        //Texture texture("res/textures/logo_google.png");
+        //texture.Bind();
+        //
+    	////Value: the texture slot to use
+        //shader.SetUniform1i("u_Texture", 0);
+
+
+        //Clear
+        //va.Unbind();
+        //shader.Unbind();
+        //GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
+        //GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
+
+
+        
+        //glm::vec3 translationA(300, 300, 0);
+        //glm::vec3 translationB(200, 200, 0);
+        //
+        //float r = 0.0f;
+        //float increment = 0.05f;
 
         /* Loop until the user closes the window */
         while(!glfwWindowShouldClose(window)) {
-            /* Render here */
             renderer.Clear();
 
-            //New Frame
+        	
+            test.OnUpdate(0.0f);
+            test.OnRender();
+
+        	
+            //ImGui New Frame
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
+            test.OnImGuiRender();
+        	
+            //Render
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+
 
         	
         	//Object 1
-            {
+            /*{
 		        glm::mat4 model = glm::translate(glm::mat4(1.0f), translationA);
 	            glm::mat4 mvp = projection * view * model;
 
 	            shader.Bind();
 	            shader.SetUniformMat4f("u_MVP", mvp);
 	            renderer.Draw(va, ib, shader);
-            }
+            }*/
             
         	//Object 2
-            {
+            /*{
 	            glm::mat4 model = glm::translate(glm::mat4(1.0f), translationB);
 	            glm::mat4 mvp = projection * view * model;
         		
 	            shader.SetUniformMat4f("u_MVP", mvp);
 	            renderer.Draw(va, ib, shader);
-            }
+            }*/
             
 
 
@@ -185,7 +191,7 @@ int main(void) {
             if(r < 1.0f) increment = 0.5f;
             r += increment;*/
 
-            {
+            /*{
                 static float f = 0.0f;
                 static int counter = 0;
 
@@ -194,11 +200,9 @@ int main(void) {
                 ImGui::SliderFloat3("Translation B", &translationB.x, 0.0f, 800.0f);
                 ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
                 ImGui::End();
-            }
+            }*/
 
-            //Render
-            ImGui::Render();
-            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);

@@ -32,6 +32,11 @@ void Shader::Unbind() const {
     GLCall(glUseProgram(0));
 }
 
+/// <summary>
+/// Shader must be bound before setting a uniform
+/// </summary>
+/// <param name="name"></param>
+/// <param name="value"></param>
 void Shader::SetUniform1i(const std::string& name, int value) {
     GLCall(glUniform1i(GetUniformLocation(name), value));
 }

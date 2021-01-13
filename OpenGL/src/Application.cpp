@@ -19,6 +19,7 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 #include "tests/TestClearColor.h"
+#include "tests/Test.h"
 
 int main(void) {
     GLFWwindow* window;
@@ -84,7 +85,12 @@ int main(void) {
         ImGui_ImplOpenGL3_Init((char*)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
 
 
-        test::TestClearColor test;
+        test::Test* currentTest;
+        test::TestMenu* testMenu = new test::TestMenu(currentTest);
+        currentTest = testMenu;
+
+        testMenu->RegisterTest<test::TestClearColor>("Clear Color");
+    	
     	
 
         //----- VertexArray/Buffer -----
@@ -143,20 +149,27 @@ int main(void) {
 
         /* Loop until the user closes the window */
         while(!glfwWindowShouldClose(window)) {
+            GLCall(glClearColor(0.0f, 0.0f, 0.0f, 0.0f));
             renderer.Clear();
 
-        	
-            test.OnUpdate(0.0f);
-            test.OnRender();
-
-        	
             //ImGui New Frame
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            test.OnImGuiRender();
-        	
+        	if(currentTest) {
+                currentTest->OnUpdate(0.0f);
+                currentTest->OnRender();
+
+                ImGui::Begin("Test");
+        		if(currentTest != testMenu && ImGui::Button("<-")) {
+                    delete currentTest;
+                    currentTest = testMenu;
+        		}
+                currentTest->OnImGuiRender();
+                ImGui::End();
+        	}
+
             //Render
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -210,6 +223,11 @@ int main(void) {
             /* Poll for and process events */
             glfwPollEvents();
         }
+
+        delete currentTest;
+
+        if(currentTest != testMenu)
+            delete testMenu;
     }
 
     //Shutdown

@@ -1,4 +1,4 @@
-#include "TestTexture2D.h"
+#include "TestBatchRender.h"
 
 #include <GL/glew.h>
 
@@ -13,29 +13,33 @@
 
 namespace test {
 
-	TestTexture2D::TestTexture2D()
+    TestBatchRender::TestBatchRender()
 		: translationA(300, 300, 0), translationB(200, 200, 0),
 		projection(glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, -1.0f, 1.0f)),
 		view(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0))) {
 		
-		float positions[] = {
-			-50.0f, -50.0f, 0.0f, 0.0f,   //Bottom left
-			50.0f, -50.0f, 1.0f, 0.0f,    //Bottom right
-			50.0f, 50.0f, 1.0f, 1.0f,     //Top right
-			-50.0f, 50.0f, 0.0f, 1.0f     //Top left
+		float vertices[] = {
+			-50.0f, -50.0f,     0.0f, 0.0f,    //Bottom left
+            50.0f, -50.0f,      1.0f, 0.0f,    //Bottom right
+            50.0f, 50.0f,       1.0f, 1.0f,    //Top right
+            -50.0f, 50.0f,      0.0f, 1.0f,    //Top left
+
+            150.0f, -50.0f,     0.0f, 0.0f,
+            250.0f, -50.0f,     1.0f, 0.0f,
+            250.0f, 50.0f,      1.0f, 1.0f,
+            150.0f, 50.0f,      0.0f, 1.0f,
 		};
 		unsigned int indices[]{
-			0, 1, 2,
-			2, 3, 0
+			0, 1, 2, 2, 3, 0,
+			4, 5, 6, 6, 7, 4
 		};
 
         
         //----- Vertex buffer -----
-        int segments = 4, segSize = 4;
-        //VertexBuffer vb(positions, segments * segSize * sizeof(float));
-        vertexBuffer = std::make_unique<VertexBuffer>(positions, segments * segSize * sizeof(float));
+        int segments = 8, segSize = 4;  //y, x
+        vertexBuffer = std::make_unique<VertexBuffer>(vertices, segments * segSize * sizeof(float));
 
-        indexBuffer = std::make_unique<IndexBuffer>(indices, 6);
+        indexBuffer = std::make_unique<IndexBuffer>(indices, 12);
         
         
 
@@ -51,26 +55,25 @@ namespace test {
 		
 
         //----- Shader -----
-        shader = std::make_unique<Shader>("res/shaders/Texture.shader");
+        shader = std::make_unique<Shader>("res/shaders/White.shader");
         shader->Bind();
-        shader->SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
+        //shader->SetUniform4f("u_Color", 0.2f, 0.3f, 0.8f, 1.0f);
 
-		
-        
+
+
         //----- Texture -----
-        //Texture texture("res/textures/logo_google.png");
         texture = std::make_unique<Texture>("res/textures/logo_google.png");
-        texture->Bind();
-        
+        //texture->Bind();
+
         //Value: the texture slot to use
-        shader->SetUniform1i("u_Texture", 0);
+        //shader->SetUniform1i("u_Texture", 0);
 	}
 
-	TestTexture2D::~TestTexture2D() {}
+    TestBatchRender::~TestBatchRender() {}
 
-	void TestTexture2D::OnUpdate(float deltaTime) {}
+	void TestBatchRender::OnUpdate(float deltaTime) {}
 
-	void TestTexture2D::OnRender() {
+	void TestBatchRender::OnRender() {
 		GLCall(glClearColor(0.0f, 0.0f, 0.0f, 0.0f));
 		GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
@@ -91,20 +94,10 @@ namespace test {
             shader->SetUniformMat4f("u_MVP", mvp);
             renderer.Draw(*vertexArray, *indexBuffer, *shader);
         }
-
-        //Object 2
-        {
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), translationB);
-            glm::mat4 mvp = projection * view * model;
-
-            shader->SetUniformMat4f("u_MVP", mvp);
-            renderer.Draw(*vertexArray, *indexBuffer, *shader);
-        }
 	}
 
-	void TestTexture2D::OnImGuiRender() {
+	void TestBatchRender::OnImGuiRender() {
         ImGui::SliderFloat3("Translation A", &translationA.x, 0.0f, 800.0f);
-        ImGui::SliderFloat3("Translation B", &translationB.x, 0.0f, 800.0f);
     }
 
 }

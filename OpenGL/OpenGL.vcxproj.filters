@@ -75,6 +75,9 @@
     <ClCompile Include="src\tests\TestBatchRenderColors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\tests\TestBatchRenderTextures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\vendor\glm\detail\func_common.inl">
@@ -487,7 +490,9 @@
     </None>
     <None Include="res\shaders\Texture.shader" />
     <None Include="res\shaders\White.shader" />
-    <None Include="res\shaders\VertexColors.shader" />
+    <None Include="res\shaders\TexCoord.shader" />
+    <None Include="res\shaders\BatchTextures.shader" />
+    <None Include="res\shaders\BatchColors.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Renderer.h">
@@ -1399,9 +1404,15 @@
     <ClInclude Include="src\tests\TestBatchRenderColors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\tests\TestBatchRenderTextures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\logo_google.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\textures\logo_microsoft.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

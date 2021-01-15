@@ -26,6 +26,7 @@
 #include "tests/TestTexture2D.h"
 #include "tests/TestBatchRender.h"
 #include "tests/TestBatchRenderColors.h"
+#include "tests/TestBatchRenderTextures.h"
 
 int main(void) {
     GLFWwindow* window;
@@ -86,6 +87,7 @@ int main(void) {
         testMenu->RegisterTest<test::TestTexture2D>("Texture 2D");
         testMenu->RegisterTest<test::TestBatchRender>("Batch Render");
         testMenu->RegisterTest<test::TestBatchRenderColors>("Batch Render Colors");
+        testMenu->RegisterTest<test::TestBatchRenderTextures>("Batch Render Textures");
 
     	
         //Clear

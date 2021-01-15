@@ -156,6 +156,7 @@
     <ClCompile Include="src\tests\Test.cpp" />
     <ClCompile Include="src\tests\TestBatchRender.cpp" />
     <ClCompile Include="src\tests\TestBatchRenderColors.cpp" />
+    <ClCompile Include="src\tests\TestBatchRenderTextures.cpp" />
     <ClCompile Include="src\tests\TestTexture2D.cpp" />
     <ClCompile Include="src\vendor\glm\detail\glm.cpp" />
     <ClCompile Include="src\vendor\imgui\imgui.cpp" />
@@ -171,8 +172,10 @@
     <ClCompile Include="src\tests\TestClearColor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\shaders\BatchTextures.shader" />
+    <None Include="res\shaders\TexCoord.shader" />
     <None Include="res\shaders\Texture.shader" />
-    <None Include="res\shaders\VertexColors.shader" />
+    <None Include="res\shaders\BatchColors.shader" />
     <None Include="res\shaders\White.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
     <None Include="src\vendor\glm\detail\func_common_simd.inl" />
@@ -318,6 +321,7 @@
     <ClInclude Include="src\tests\Test.h" />
     <ClInclude Include="src\tests\TestBatchRender.h" />
     <ClInclude Include="src\tests\TestBatchRenderColors.h" />
+    <ClInclude Include="src\tests\TestBatchRenderTextures.h" />
     <ClInclude Include="src\tests\TestTexture2D.h" />
     <ClInclude Include="src\vendor\glm\common.hpp" />
     <ClInclude Include="src\vendor\glm\detail\compute_common.hpp" />
@@ -618,6 +622,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\logo_google.png" />
+    <Image Include="res\textures\logo_microsoft.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

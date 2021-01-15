@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Quad.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="src\tests\Test.cpp" />
     <ClCompile Include="src\tests\TestBatchRender.cpp" />
     <ClCompile Include="src\tests\TestBatchRenderColors.cpp" />
+    <ClCompile Include="src\tests\TestBatchRenderDynamic.cpp" />
     <ClCompile Include="src\tests\TestBatchRenderTextures.cpp" />
     <ClCompile Include="src\tests\TestTexture2D.cpp" />
     <ClCompile Include="src\vendor\glm\detail\glm.cpp" />
@@ -315,12 +317,14 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Quad.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\tests\Test.h" />
     <ClInclude Include="src\tests\TestBatchRender.h" />
     <ClInclude Include="src\tests\TestBatchRenderColors.h" />
+    <ClInclude Include="src\tests\TestBatchRenderDynamic.h" />
     <ClInclude Include="src\tests\TestBatchRenderTextures.h" />
     <ClInclude Include="src\tests\TestTexture2D.h" />
     <ClInclude Include="src\vendor\glm\common.hpp" />
@@ -614,6 +618,7 @@
     <ClInclude Include="src\vendor\imgui\imstb_textedit.h" />
     <ClInclude Include="src\vendor\imgui\imstb_truetype.h" />
     <ClInclude Include="src\vendor\stb_image\stb_image.h" />
+    <ClInclude Include="src\Vertex.h" />
     <ClInclude Include="src\VertexBuffer.h" />
     <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\VertexBufferLayout.h" />
